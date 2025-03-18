@@ -14,7 +14,7 @@ const PORT = 3000;
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use('/src', express.static('src'))
-app.use('/bootstrap', express.static('node_modules/bootstrap/dist/css/bootstrap.min.css'));
+app.use(express.static('node_modules/bootstrap/dist/css/'));
 
 //
 
@@ -35,6 +35,12 @@ app.get('/', (req, res) => res.render('index') );
 
 //
 
-io.on('connection', socket => {
+const rooms = [];
 
+io.on('connection', socket => {
+    socket.on('room create', data => {
+        rooms.push(data.roomName);
+        console.log(data)
+        io.emit('new room', data);
+    })
 });
