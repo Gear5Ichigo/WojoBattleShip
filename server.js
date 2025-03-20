@@ -38,9 +38,24 @@ app.get('/', (req, res) => res.render('index') );
 const rooms = [];
 
 io.on('connection', socket => {
+
+    socket.emit('init', rooms);
+
     socket.on('room create', data => {
-        rooms.push(data.roomName);
-        console.log(data)
-        io.emit('new room', data);
+        console.log(parseInt(socket.rooms.size), socket.rooms);
+        if (parseInt(socket.rooms.size) < 2) {
+            console.log(socket.rooms.size)
+            if (rooms.indexOf(data.roomName) == -1) {
+                rooms.push(data.roomName);
+                console.log(rooms)
+                io.emit('new room', data);
+            } else {
+                io.to(socket.id).emit('room exists');
+            }
+        }
+    });
+
+    socket.on('disconnect', () => {
+        rooms.splice(rooms.indexOf(socket.rooms[0], 1));
     })
 });
