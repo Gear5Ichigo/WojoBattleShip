@@ -5,9 +5,11 @@ const socket = io();
 
 (async () => {
 
+    const rooms = document.querySelector('#rooms');
     const rName = document.querySelector('#roomName');
     const creationDiv = document.querySelector('#creation');
     const roomActions = document.querySelector('#roomActions');
+    const leaveRoom = document.querySelector('#leave');
 
     const app = new Application();
     await app.init({background: 0x000000});
@@ -22,36 +24,33 @@ const socket = io();
             socket.emit('room create', {roomName: rName.value});
             rName.value = '';
         }
-    })
+    });
+
+    leaveRoom.addEventListener('click', e => {
+        socket.emit('leave room');
+        if (!roomActions.classList.contains('d-none')) roomActions.classList.add('d-none');
+        creationDiv.classList.remove('d-none');
+    });
 
     socket.on('init', rooms => {
-        for (const room of rooms) {
+
+    });
+
+    socket.on('update rooms', data => {
+        rooms.innerHTML = '';
+        for (const room of data) {
             const li = document.createElement('li');
             const click = document.createElement('button');
     
-            click.innerText = data.roomName;
+            click.innerText = room.name;
             click.type = 'button';
             click.classList.add('btn', 'btn-link');
             click.addEventListener('click', e => {
-    
+                socket.emit('join room', click.innerText);
             });
-    
-            li.appendChild(click); document.querySelector('#rooms').appendChild(li);
+
+            li.appendChild(click); rooms.appendChild(li);
         }
-    })
-
-    socket.on('new room', data => {
-        const li = document.createElement('li');
-        const click = document.createElement('button');
-
-        click.innerText = data.roomName;
-        click.type = 'button';
-        click.classList.add('btn', 'btn-link');
-        click.addEventListener('click', e => {
-
-        });
-
-        li.appendChild(click); document.querySelector('#rooms').appendChild(li);
     });
 
     socket.on('room exists', () => {
