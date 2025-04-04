@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../build/game.js"],
+  "sourcesContent": ["export default class Game {\r\n    constructor() {\r\n        this.grid = [];\r\n        for (let i = 0; i < 10; i++) {\r\n            this.grid[i] = [];\r\n            for (let o = 0; o < 10; o++) {\r\n                this.grid[i][o] = 0;\r\n            }\r\n        }\r\n    }\r\n}"],
+  "mappings": "MAAA,IAAqBA,EAArB,KAA0B,CACtB,aAAc,CACV,KAAK,KAAO,CAAC,EACb,QAASC,EAAI,EAAGA,EAAI,GAAIA,IAAK,CACzB,KAAK,KAAKA,CAAC,EAAI,CAAC,EAChB,QAASC,EAAI,EAAGA,EAAI,GAAIA,IACpB,KAAK,KAAKD,CAAC,EAAEC,CAAC,EAAI,CAE1B,CACJ,CACJ",
+  "names": ["Game", "i", "o"]
+}

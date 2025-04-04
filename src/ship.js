@@ -1,0 +1,2 @@
+(()=>{})();
+//# sourceMappingURL=ship.js.map

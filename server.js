@@ -80,6 +80,12 @@ io.on('connection', async socket => {
         leave(socket);
     });
 
+    socket.on('start game', () => {
+        if (socket.rooms.size >= 2) {
+            io.to(Array.from(socket.rooms.values())[1]).emit('start game');
+        }
+    });
+
     socket.on('disconnect', async () => {
         leave(socket);
     });
